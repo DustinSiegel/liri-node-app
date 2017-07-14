@@ -1,2 +1,2 @@
 # liri-node-app
-first backed project
+first back end project
