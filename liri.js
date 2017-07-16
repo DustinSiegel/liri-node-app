@@ -1,20 +1,32 @@
 var twitterAuthenticate = require("./keys.js");
-
-// console.log("-------------------------------------");
-// console.log("API Keys For Twitter");
-// console.log("consumer_key: " + twitterAuthenticate.twitterKeys.consumer_key);
-// console.log("consumer_secret: " + twitterAuthenticate.twitterKeys.consumer_secret);
-// console.log("access_token_key: " + twitterAuthenticate.twitterKeys.access_token_key);
-// console.log("access_token_secret: " + twitterAuthenticate.twitterKeys.access_token_secret);
-// console.log("-------------------------------------");
-
-var apiAuth =  {
+var Twitter = require('twitter');
+var userInput = process.argv[2];
+var client = new Twitter({
 	consumer_key: 'raNfCTqlRU0nOondQz2GkJIlO',
  	consumer_secret: 'Y9OlPdisn9lLdaQvFa65cbDjXdZezSWV6NS2SR7YW5IEBpvjVF',
  	access_token_key: '884964564642791424-iSgdYDR0fg1EXn44qGdjZaTPGGwPTv2',
  	access_token_secret: 'EbqolyjFETwAR0JULRrNIP6zU6uKmfK5C2JIhsD9wlm3J'
-}
+});
 
-if (process.argv[2] === "my-tweets") {
-	console.log(apiAuth);
-}
+var params = {screen_name: 'MntGoatsDilemma'};
+
+client.get('statuses/user_timeline', params, function(error, tweets, response) {
+  
+  if (userInput === "my-tweets") {
+
+  	// console.log(tweets);
+  	
+  	for(i = 0; i < tweets.length; i++) {
+
+  	console.log("------------------------------------------------------------")
+    console.log("Mountain Goat Says: " + tweets[i].text);
+    console.log("-")
+    console.log("This is when he said it: " + tweets[i].created_at);
+    console.log("------------------------------------------------------------")
+	}
+  }
+});
+
+// if (process.argv[2] === "my-tweets") {
+// 	console.log(tweets);
+// }
