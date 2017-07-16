@@ -8,33 +8,40 @@ var client = new Twitter({
  	access_token_key: '884964564642791424-iSgdYDR0fg1EXn44qGdjZaTPGGwPTv2',
  	access_token_secret: 'EbqolyjFETwAR0JULRrNIP6zU6uKmfK5C2JIhsD9wlm3J'
 });
-
 var params = {screen_name: 'MntGoatsDilemma'};
 
-client.get('statuses/user_timeline', params, function(error, tweets, response) {
-  
-  	if (userInput === "my-tweets") {
+switch (userInput) {
+  case "my-tweets":
+    tweetPullAndLog();
+    break;
+  case "spotify-this-song":
+    songPullAndLog();
+    break;
+  case "movie-this":
+    moviePullAndLog();
+    break;
+}
 
-  		// console.log(tweets);
-  	
-  		for(i = 0; i < tweets.length; i++) {
+function tweetPullAndLog() {
 
-  			console.log("------------------------------------------------------------");
-    		console.log("Mountain Goat Says: " + tweets[i].text);
-    		console.log("-")
-    		console.log("This is when he said it: " + tweets[i].created_at);
-    		console.log("------------------------------------------------------------");
-    		
-    		fs.appendFile("log.txt", "Mountain Goat Says: " + tweets[i].text + "This is when he said it: " + tweets[i].created_at, function(err) {
-    			if (err) {
-      				return console.log(err);
-    			}
-  			});
-    	}
-    }
-});
+	client.get('statuses/user_timeline', params, function(error, tweets, response) {
+	  
+	  	if (userInput === "my-tweets") {
+	  	
+	  		for(i = 0; i < tweets.length; i++) {
 
-
-// if (process.argv[2] === "my-tweets") {
-// 	console.log(tweets);
-// }
+	  			console.log("------------------------------------------------------------");
+	    		console.log("Mountain Goat Says: " + tweets[i].text);
+	    		console.log("-")
+	    		console.log("This is when he said it: " + tweets[i].created_at);
+	    		console.log("------------------------------------------------------------");
+	    		
+	    		fs.appendFile("log.txt", "---------------------------------------------------------- Mountain Goat Says: " + tweets[i].text + "---This is when he said it: " + tweets[i].created_at, function(err) {
+	    			if (err) {
+	      				return console.log(err);
+	    			}
+	  			});
+	    	}
+	    }
+	});
+};
