@@ -1,14 +1,24 @@
 var twitterAuthenticate = require("./keys.js");
 var fs = require('file-system');
 var Twitter = require('twitter');
-var userInput = process.argv[2];
+var Spotify = require('node-spotify-api');
+
+//Twitter API Keys
 var client = new Twitter({
-	consumer_key: 'raNfCTqlRU0nOondQz2GkJIlO',
- 	consumer_secret: 'Y9OlPdisn9lLdaQvFa65cbDjXdZezSWV6NS2SR7YW5IEBpvjVF',
- 	access_token_key: '884964564642791424-iSgdYDR0fg1EXn44qGdjZaTPGGwPTv2',
- 	access_token_secret: 'EbqolyjFETwAR0JULRrNIP6zU6uKmfK5C2JIhsD9wlm3J'
+	consumer_key: twitterAuthenticate.twitterKeys.consumer_key,
+ 	consumer_secret: twitterAuthenticate.twitterKeys.consumer_secret,
+ 	access_token_key: twitterAuthenticate.twitterKeys.access_token_key,
+ 	access_token_secret: twitterAuthenticate.twitterKeys.access_token_secret
 });
+
+var spotify = new Spotify({
+	id: twitterAuthenticate.spotifyKeys.clientID,
+	secret: twitterAuthenticate.spotifyKeys.clientSecret
+});
+
 var params = {screen_name: 'MntGoatsDilemma'};
+var userInput = process.argv[2];
+var userInputTwo = process.argv[3];
 
 switch (userInput) {
   case "my-tweets":
@@ -43,5 +53,17 @@ function tweetPullAndLog() {
 	  			});
 	    	}
 	    }
+	});
+};
+
+function songPullAndLog() {
+	
+	spotify.search({ type: 'track', query: "'" + userInputTwo + "'" }, function(err, song) {
+  		
+  		if (err) {
+    		return console.log('Error occurred: ' + err);
+  		}
+ 
+		console.log(song.tracks.items); 
 	});
 };
