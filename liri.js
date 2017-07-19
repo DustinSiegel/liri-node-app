@@ -46,9 +46,9 @@ function tweetPullAndLog() {
 	    		console.log("This is when he said it: " + tweets[i].created_at);
 	    		console.log("------------------------------------------------------------");
 	    		
-	    		fs.appendFile("log.txt", "---------------------------------------------------------- Mountain Goat Says: " + tweets[i].text + "---This is when he said it: " + tweets[i].created_at, function(err) {
+	    		fs.appendFile("log.txt", "---------------------------------------------------------- Mountain Goat Says: " + tweets[i].text + "--- This is when he said it: " + tweets[i].created_at, function(err) {
 	    			if (err) {
-	      				return console.log(err);
+	      				return console.log('Error occured: ' + err);
 	    			}
 	  			});
 	    	}
@@ -63,7 +63,13 @@ function songPullAndLog() {
   		if (err) {
     		return console.log('Error occurred: ' + err);
   		}
- 
-		console.log(song.tracks.items); 
+	  	console.log("------------------------------------------------------------");
+		console.log("Band/Artist name: " + song.tracks.items[0].artists[0].name); //Band name
+		console.log("Album name: " + song.tracks.items[0].album.name);	//Album name
+		console.log("Song name: " + song.tracks.items[0].name);	//Song name
+		console.log("URL link to this song: " + song.tracks.items[0].external_urls.spotify);  //Song URL
+		console.log("------------------------------------------------------------");
+
+		fs.appendFile("log.txt", "---------------------------------------------------------- Band/Artist name: " + song.tracks.items[0].artists[0].name + "--- Album name: " + song.tracks.items[0].album.name + "--- Song name: " + song.tracks.items[0].name + "--- URL link to this song: " + song.tracks.items[0].external_urls.spotify);
 	});
 };
