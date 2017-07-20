@@ -21,16 +21,25 @@ var spotify = new Spotify({
 var params = {screen_name: 'MntGoatsDilemma'};
 var userInput = process.argv[2];
 var userInputTwo = process.argv[3];
+var userInputThree;
+var userInputFour;
 
-switch (userInput) {
-  case "my-tweets":
-    tweetPullAndLog();
+switch (userInput || userInputThree) {
+  	
+  	case "my-tweets":
+    	tweetPullAndLog();
     break;
-  case "spotify-this-song":
-    songPullAndLog();
+  	
+  	case "spotify-this-song":
+   		songPullAndLog();
     break;
-  case "movie-this":
-    moviePullAndLog();
+  	
+  	case "movie-this":
+    	moviePullAndLog();
+    break;
+    
+    case "do-what-it-says":
+    	randomPullAndLog();
     break;
 }
 
@@ -57,7 +66,7 @@ function tweetPullAndLog() {
 
 function songPullAndLog() {
 	
-	spotify.search({ type: 'track', query: "'" + userInputTwo + "'" }, function(err, song) {
+	spotify.search({ type: 'track', query: "'" + (userInputTwo || userInputFour || "Ace of Base The Sign" ) + "'" }, function(err, song) {
 
 	  	console.log("------------------------------------------------------------");
 		console.log("Band/Artist name: " + song.tracks.items[0].artists[0].name); //Band name
@@ -77,11 +86,10 @@ function songPullAndLog() {
 
 function moviePullAndLog() {
 
-	request("http://www.omdbapi.com/?apikey=40e9cece&t=" + userInputTwo + `&tomatoes=true`, function (err, response, body) {
+	request('http://www.omdbapi.com/?apikey=40e9cece&t=' + (userInputTwo || "Mr. Nobody")+ `&tomatoes=true`, function (err, response, body) {
   		
   		var bodyObj = JSON.parse(body);
 
-  		console.log('body:', body);
   		console.log("------------------------------------------------------------");
   		console.log("Movie Title: " + bodyObj.Title);
   		console.log("Release Year: " + bodyObj.Year);
@@ -96,5 +104,23 @@ function moviePullAndLog() {
   		if (err) {
 	    		return console.log('Error occurred: ' + err);
 	  		}
+	});
+};
+
+function randomPullAndLog() {
+	
+	fs.readFile("random.txt", "utf8", function (err, data) {
+
+		var contentArray = [];
+		contentArray = data.split(",");
+		
+		userInputThree = contentArray[0];
+		userInputFour = contentArray[1];
+
+		songPullAndLog()
+
+        if (err) {
+          return console.log(err);
+        }
 	});
 };
