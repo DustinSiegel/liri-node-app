@@ -23,25 +23,25 @@ var userInput = process.argv[2];
 var userInputTwo = process.argv[3];
 var userInputThree;
 var userInputFour;
-
-switch (userInput || userInputThree) {
-  	
-  	case "my-tweets":
-    	tweetPullAndLog();
-    break;
-  	
-  	case "spotify-this-song":
-   		songPullAndLog();
-    break;
-  	
-  	case "movie-this":
-    	moviePullAndLog();
-    break;
-    
-    case "do-what-it-says":
-    	randomPullAndLog();
-    break;
-}
+	
+	switch (userInput || userInputThree) {
+	  	
+	  	case "my-tweets":
+	    	tweetPullAndLog();
+	    break;
+	  	
+	  	case "spotify-this-song":
+	   		songPullAndLog();
+	    break;
+	  	
+	  	case "movie-this":
+	    	moviePullAndLog();
+	    break;
+	    
+	    case "do-what-it-says":
+	    	randomPullAndLog();
+	    break;
+	}
 
 function tweetPullAndLog() {
 
@@ -101,10 +101,12 @@ function moviePullAndLog() {
   		console.log("Link to Rotten Tomatoes: " + bodyObj.tomatoURL);
   		console.log("------------------------------------------------------------");
 
-  		if (err) {
-	    		return console.log('Error occurred: ' + err);
-	  		}
-	});
+  		fs.appendFile("log.txt", "---------------------------------------------------------- Movie Title: " + bodyObj.Title + "--- Release Year: " + bodyObj.Year + "--- IMDB Rateing: " + bodyObj.Ratings[0].Value + "--- Movie Nationality: " + bodyObj.Country + "--- Language: " + bodyObj.Language + "--- Plot: " + bodyObj.Plot + "--- Actors: " + bodyObj.Actors + "--- Link to Rotten Tomatoes: " + bodyObj.tomatoURL, function(err) {
+	  		if (err) {
+		    		return console.log('Error occurred: ' + err);
+		  	}
+  		})
+	});  		
 };
 
 function randomPullAndLog() {
