@@ -2,7 +2,7 @@ var twitterAuthenticate = require("./keys.js");
 var fs = require('file-system');
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
-var omdbApi = require('omdb-client');
+var request = require('request');
 
 //Twitter API Keys
 var client = new Twitter({
@@ -17,8 +17,6 @@ var spotify = new Spotify({
 	id: twitterAuthenticate.spotifyKeys.clientID,
 	secret: twitterAuthenticate.spotifyKeys.clientSecret
 });
-
-// var omdb = "http://www.omdbapi.com/?apikey=40e9cece&plot=full&";
 
 var params = {screen_name: 'MntGoatsDilemma'};
 var userInput = process.argv[2];
@@ -79,13 +77,24 @@ function songPullAndLog() {
 
 function moviePullAndLog() {
 
-	var params = {
-    title: 'Terminator'
-	}
+	request("http://www.omdbapi.com/?apikey=40e9cece&t=" + userInputTwo + `&tomatoes=true`, function (err, response, body) {
+  		
+  		var bodyObj = JSON.parse(body);
 
-	omdbApi.get(params, function(err, data) {
-		if (err) {
-	    	return console.log('Error occurred: ' + err);
-	  	}
+  		console.log('body:', body);
+  		console.log("------------------------------------------------------------");
+  		console.log("Movie Title: " + bodyObj.Title);
+  		console.log("Release Year: " + bodyObj.Year);
+  		console.log("IMDB Rateing: " + bodyObj.Ratings[0].Value);
+  		console.log("Movie Nationality: " + bodyObj.Country);
+  		console.log("Language: " + bodyObj.Language);
+  		console.log("Plot: " + bodyObj.Plot);
+  		console.log("Actors: " + bodyObj.Actors);
+  		console.log("Link to Rotten Tomatoes: " + bodyObj.tomatoURL);
+  		console.log("------------------------------------------------------------");
+
+  		if (err) {
+	    		return console.log('Error occurred: ' + err);
+	  		}
 	});
 };
