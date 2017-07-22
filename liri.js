@@ -21,10 +21,10 @@ var spotify = new Spotify({
 var params = {screen_name: 'MntGoatsDilemma'};
 var userInput = process.argv[2];
 var userInputTwo = process.argv[3];
-var userInputThree;
-var userInputFour;
+
+function toggleQuery(input) {
 	
-	switch (userInput || userInputThree) {
+	switch (input) {
 	  	
 	  	case "my-tweets":
 	    	tweetPullAndLog();
@@ -42,6 +42,9 @@ var userInputFour;
 	    	randomPullAndLog();
 	    break;
 	}
+};
+
+toggleQuery(userInput)
 
 function tweetPullAndLog() {
 
@@ -55,7 +58,7 @@ function tweetPullAndLog() {
 	    	console.log("This is when he said it: " + tweets[i].created_at);
 	    	console.log("------------------------------------------------------------");
 	    		
-	    	fs.appendFile("log.txt", "---------------------------------------------------------- Mountain Goat Says: " + tweets[i].text + "--- This is when he said it: " + tweets[i].created_at, function(err) {
+	    	fs.appendFile("log.txt", "\nMountain Goat Says: " + tweets[i].text + "\n" + "\nThis is when he said it: " + tweets[i].created_at + "\n--------------------------------------", function(err) {
 	    		if (err) {
 	      			return console.log('Error occured: ' + err);
 	    		}
@@ -66,7 +69,7 @@ function tweetPullAndLog() {
 
 function songPullAndLog() {
 	
-	spotify.search({ type: 'track', query: "'" + (userInputTwo || userInputFour || "Ace of Base The Sign" ) + "'" }, function(err, song) {
+	spotify.search({ type: 'track', query: "'" + (userInputTwo || "Ace of Base The Sign" ) + "'" }, function(err, song) {
 
 	  	console.log("------------------------------------------------------------");
 		console.log("Band/Artist name: " + song.tracks.items[0].artists[0].name); //Band name
@@ -75,7 +78,7 @@ function songPullAndLog() {
 		console.log("URL link to this song: " + song.tracks.items[0].external_urls.spotify);  //Song URL
 		console.log("------------------------------------------------------------");
 
-		fs.appendFile("log.txt", "---------------------------------------------------------- Band/Artist name: " + song.tracks.items[0].artists[0].name + "--- Album name: " + song.tracks.items[0].album.name + "--- Song name: " + song.tracks.items[0].name + "--- URL link to this song: " + song.tracks.items[0].external_urls.spotify, function(err) {
+		fs.appendFile("log.txt", "\nBand/Artist name: " + song.tracks.items[0].artists[0].name + "\nAlbum name: " + song.tracks.items[0].album.name + "\nSong name: " + song.tracks.items[0].name + "\nURL link to this song: " + song.tracks.items[0].external_urls.spotify + "\n--------------------------------------", function(err) {
 
 	  		if (err) {
 	    		return console.log('Error occurred: ' + err);
@@ -101,7 +104,7 @@ function moviePullAndLog() {
   		console.log("Link to Rotten Tomatoes: " + bodyObj.tomatoURL);
   		console.log("------------------------------------------------------------");
 
-  		fs.appendFile("log.txt", "---------------------------------------------------------- Movie Title: " + bodyObj.Title + "--- Release Year: " + bodyObj.Year + "--- IMDB Rateing: " + bodyObj.Ratings[0].Value + "--- Movie Nationality: " + bodyObj.Country + "--- Language: " + bodyObj.Language + "--- Plot: " + bodyObj.Plot + "--- Actors: " + bodyObj.Actors + "--- Link to Rotten Tomatoes: " + bodyObj.tomatoURL, function(err) {
+  		fs.appendFile("log.txt", "\nMovie Title: " + bodyObj.Title + "\nRelease Year: " + bodyObj.Year + "\nIMDB Rateing: " + bodyObj.Ratings[0].Value + "\nMovie Nationality: " + bodyObj.Country + "\nLanguage: " + bodyObj.Language + "\nPlot: " + bodyObj.Plot + "\nActors: " + bodyObj.Actors + "\nLink to Rotten Tomatoes: " + bodyObj.tomatoURL + "\n--------------------------------------", function(err) {
 	  		if (err) {
 		    		return console.log('Error occurred: ' + err);
 		  	}
@@ -116,10 +119,10 @@ function randomPullAndLog() {
 		var contentArray = [];
 		contentArray = data.split(",");
 		
-		userInputThree = contentArray[0];
-		userInputFour = contentArray[1];
+		userInput = contentArray[0];
+		userInputTwo = contentArray[1];
 
-		songPullAndLog()
+		toggleQuery(userInput);
 
         if (err) {
           return console.log(err);
